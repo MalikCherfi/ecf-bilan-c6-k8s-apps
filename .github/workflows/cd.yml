@@ -2,10 +2,6 @@ name: Deploy PostgreSQL with Helm
 
 on:
     workflow_dispatch:
-    push:
-        branches:
-            - main
-
 jobs:
     deploy:
         permissions:
