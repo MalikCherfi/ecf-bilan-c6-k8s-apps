@@ -1,0 +1,15 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.storage.storageClass }}
+provisioner: file.csi.azure.com
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+parameters:
+  protocol: nfs
+  resourceGroup: {{ .Values.storage.resourceGroup | quote }}
+  storageAccount: {{ .Values.storage.storageAccount | quote }}
+  shareName: {{ .Values.storage.shareName | quote }}
+mountOptions:
+  - nconnect=4

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: postgres-chart
+description: Helm chart pour le déploiement de PostgreSQL sur AKS avec Azure Files NFS
+type: application
+version: 0.1.0
+appVersion: "16"

@@ -1,0 +1,48 @@
+name: Deploy PostgreSQL with Helm
+
+on:
+    workflow_dispatch:
+jobs:
+    deploy:
+        permissions:
+            actions: read
+            contents: read
+            id-token: write
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Azure login
+              uses: azure/login@v2
+              with:
+                  client-id: ${{ secrets.AZURE_CLIENT_ID }}
+                  tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+                  subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+            - name: Set up kubelogin for non-interactive login
+              uses: azure/use-kubelogin@v1
+              with:
+                  kubelogin-version: "v0.2.19"
+
+            - name: Get K8s context
+              uses: azure/aks-set-context@v3
+              with:
+                  resource-group: ${{ vars.RESOURCE_GROUP_NAME }}
+                  cluster-name: ${{ vars.CLUSTER_NAME }}
+                  admin: "false"
+                  use-kubelogin: "true"
+
+            - name: Bake Manifests with Helm
+              uses: azure/k8s-bake@v2
+              id: bake
+              with:
+                  renderEngine: "helm"
+                  helmChart: "./helm"
+                  helm-version: "latest"
+
+            - name: Deploy application
+              uses: Azure/k8s-deploy@v5
+              with:
+                  action: deploy
+                  namespace: "postgres-ns"
+                  manifests: ${{ steps.bake.outputs.manifestsBundle }}

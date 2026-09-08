@@ -1,0 +1,19 @@
+postgres:
+  image: postgres:16
+  user: postgres
+  password: "admin123"
+  database: mydatabase
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      memory: 1Gi
+
+storage:
+  storageClass: azurefile-csi-nfs
+  resourceGroup: "mcherfiRG"
+  storageAccount: "samcherfifs"
+  shareName: "postgres-data"
+  claimName: postgres-data
+  size: 10Gi
