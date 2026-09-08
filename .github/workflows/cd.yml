@@ -32,6 +32,10 @@ jobs:
                   admin: "false"
                   use-kubelogin: "true"
 
+            - name: Ensure Namespace exists
+              run: |
+                  kubectl create namespace postgres-ns --dry-run=client -o yaml | kubectl apply -f -
+
             - name: Bake Manifests with Helm
               uses: azure/k8s-bake@v2
               id: bake
