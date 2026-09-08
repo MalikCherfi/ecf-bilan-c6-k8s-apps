@@ -34,7 +34,7 @@ az identity federated-credential create \
   --identity-name "$IDENTITY_NAME" \
   --resource-group "$RG" \
   --issuer "https://token.actions.githubusercontent.com" \
-  --subject "repo:MalikCherfi@90403152/${GITHUB_REPO}@1359946936:ref:refs/heads/main" \
+  --subject "repo:MalikCherfi@90403152/${GITHUB_REPO}@1359948531:ref:refs/heads/main" \
   --audiences "api://AzureADTokenExchange"
 
 # Create federated credentials for pull requests
@@ -43,7 +43,7 @@ az identity federated-credential create \
   --identity-name "$IDENTITY_NAME" \
   --resource-group "$RG" \
   --issuer "https://token.actions.githubusercontent.com" \
-  --subject "repo:MalikCherfi@90403152/${GITHUB_REPO}@1359946936:pull_request" \
+  --subject "repo:MalikCherfi@90403152/${GITHUB_REPO}@1359948531:pull_request" \
   --audiences "api://AzureADTokenExchange"
 
 echo "AZURE_CLIENT_ID=$CLIENT_ID"
