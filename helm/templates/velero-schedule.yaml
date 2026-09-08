@@ -2,7 +2,6 @@ apiVersion: velero.io/v1
 kind: Schedule
 metadata:
   name: postgres-daily-backup
-  namespace: velero
 spec:
   # Tous les jours à 01h00 du matin
   schedule: "0 1 * * *"
