@@ -1,0 +1,26 @@
+name: Validate Helm Configuration
+
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ 'helm/**' ]
+  pull_request:
+    branches: [ "main" ]
+    paths: [ 'helm/**' ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: 'v3.14.0'
+
+      - name: Lint Chart
+        run: helm lint ./helm/postgres
+
+      - name: Validate Template Generation
+        run: helm template postgres ./helm/postgres -f ./helm/postgres/values.yaml > /dev/null
