@@ -15,21 +15,25 @@ Ce dépôt contient le déploiement Kubernetes d'une application PostgreSQL via 
 
 ```
 ecf-bilan-c6-k8s-apps/
-├── .github/workflows/
-│   └── cd.yml                 # Pipeline CI/CD (déploiement automatisé)
+├── .github/
+│   └── workflows/
+│       └── ci.yaml                  # Pipeline CI (Validation & Linting Helm)
+├── argocd-apps/
+│   └── postgres-app.yaml            # Déclaration de l'Application ArgoCD
 ├── helm/
-│   ├── templates/
-│   │   ├── deployment.yaml    # Déploiement du pod PostgreSQL
-│   │   ├── pvc.yaml           # PersistentVolumeClaim (stockage)
-│   │   ├── secrets.yaml       # Secrets (identifiants PostgreSQL)
-│   │   ├── service.yaml       # Service exposant PostgreSQL
-│   │   ├── storageClass.yaml  # StorageClass (Azure NFS)
-│   │   └── velero-schedule.yaml # Planification des backups Velero
-│   ├── Chart.yaml             # Métadonnées du chart Helm
-│   └── values.yaml            # Valeurs de configuration du chart
+│   └── postgres/
+│       ├── templates/
+│       │   ├── deployment.yaml      # StatefulSet / Deployment PostgreSQL
+│       │   ├── pvc.yaml             # PersistentVolumeClaim (Azure Files NFS v4.1)
+│       │   ├── secrets.yaml         # Secret Kubernetes (identifiants PostgreSQL)
+│       │   ├── service.yaml         # Service ClusterIP (port 5432)
+│       │   ├── storageClass.yaml    # StorageClass (file.csi.azure.com, nfsvers=4.1)
+│       │   └── velero-schedule.yaml # Planification automatique des sauvegardes
+│       ├── Chart.yaml               # Métadonnées du Chart Helm
+│       └── values.yaml              # Configuration (mots de passe, volumes, cron)
 ├── scripts/
-│   └── oidc.sh                # Script d'authentification OIDC vers Azure
-└── README.md
+│   └── oidc.sh                      # Provisionnement Workload Identity & Velero
+└── README.md                        # Documentation du projet
 ```
 
 ---
